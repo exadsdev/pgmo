@@ -1,0 +1,28 @@
+.box   {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    gap: 0;  
+}
+
+.item {
+display: block;
+
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+
+@media screen and (max-width: 480px) {
+    .box {
+        flex-direction: column;
+    }
+    .item {
+    width: 100%;
+}
+.item img {
+    width: 100%;    
+}
+    
+}
