@@ -14,6 +14,11 @@ const siteUrl = rawSiteUrl.startsWith('http')
   ? rawSiteUrl
   : `https://${rawSiteUrl}`;
 
+const ogImage = `${siteUrl}/images/og-main.jpg`;
+const logoImage = `${siteUrl}/images/logo.png`;
+const contactPhone = process.env.NEXT_PUBLIC_CONTACT_PHONE || '';
+const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || '';
+
 const brandName =
   process.env.NEXT_PUBLIC_BRAND_NAME || 'PG Mobile V9';
 const companyLegal =
@@ -42,9 +47,9 @@ export const metadata = {
     canonical: '/'
   },
   icons: {
-    icon: '/images/favicon.png',
-    shortcut: '/images/favicon.png',
-    apple: '/images/apple-touch-icon.png'
+    icon: '/images/logo.png',
+    shortcut: '/images/logo.png',
+    apple: '/images/logo.png'
   },
   openGraph: {
     title: 'PG Mobile V9 | ซื้อมือถือ PG Mobile, PG V9 ราคาคุ้ม ประกันศูนย์ไทย',
@@ -54,7 +59,7 @@ export const metadata = {
     siteName: 'PG Mobile V9',
     images: [
       {
-        url: '/images/og-main.jpg',
+        url: ogImage,
         width: 1200,
         height: 630,
         alt: 'PG Mobile V9 Official Store'
@@ -67,7 +72,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'PG Mobile V9',
     description: 'ร้านมือถือ PG Mobile V9 – ซื้อ PG Mobile, PG V9 ราคาคุ้ม',
-    images: ['/images/og-main.jpg']
+    images: [ogImage]
   },
   robots: {
     index: true,
@@ -86,24 +91,35 @@ export default function RootLayout({ children }) {
     description:
       'PG Mobile ร้านขายมือถือออนไลน์ ครบรุ่น PG Mobile, PG Mobile V9, PG V9, PG มือถือราคาคุ้ม ประกันศูนย์ไทย จัดส่งฟรี เก็บเงินปลายทางทั่วประเทศ.',
     inLanguage: 'th-TH',
+    image: ogImage,
     potentialAction: {
       '@type': 'SearchAction',
       target: `${siteUrl}/?q={search_term_string}`,
       'query-input': 'required name=search_term_string'
     },
+    publisher: { '@id': `${siteUrl}#organization` },
     keywords: ['pg mobile', 'pg mobile v9', 'pg v9', 'pg']
   };
 
   const ldJsonOrganization = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': `${siteUrl}#organization`,
     name: companyLegal,
     url: siteUrl,
     legalName: companyLegal,
     brand: {
       '@type': 'Brand',
       name: brandName
-    }
+    },
+    logo: {
+      '@type': 'ImageObject',
+      url: logoImage
+    },
+    contactPoint: [
+      ...(contactPhone ? [{ '@type': 'ContactPoint', telephone: contactPhone, contactType: 'customer service' }] : []),
+      ...(contactEmail ? [{ '@type': 'ContactPoint', email: contactEmail, contactType: 'customer service' }] : [])
+    ]
   };
 
   return (
